@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const TARGET = new Date("2026-05-29T23:59:00+03:00").getTime();
+const TARGET = new Date("2026-05-29T16:00:00+03:00").getTime();
 
 type Parts = { days: number; hours: number; minutes: number; seconds: number; done: boolean };
 

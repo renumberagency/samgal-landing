@@ -20,7 +20,7 @@ export default function FinalCTA() {
             className="text-center lg:text-right"
           >
             <h2 className="text-4xl sm:text-6xl font-black leading-tight text-balance mb-6 text-ink-950">
-              ב-29 במאי בחצות —
+              יום שישי 29.05 · 16:00 —
               <br />
               <span className="text-samgal">החלון נסגר.</span>
             </h2>

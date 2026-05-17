@@ -16,7 +16,7 @@ export default function Hero() {
             border border-samgal/30 bg-samgal-tint text-samgal text-sm font-medium mb-8"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-samgal animate-pulse" />
-          ימי המכירות של סמגל מטבחים · 25–29 במאי
+          ימי המכירות של סמגל מטבחים · 26–29 במאי
         </motion.div>
 
         <motion.h1
@@ -29,7 +29,7 @@ export default function Hero() {
           <br />
           על כל מטבח.
           <br />
-          <span className="text-samgal">5 ימים בלבד.</span>
+          <span className="text-samgal">4 ימים בלבד.</span>
         </motion.h1>
 
         <motion.p
@@ -39,7 +39,7 @@ export default function Hero() {
           className="text-lg sm:text-xl text-ink-700 max-w-2xl mx-auto text-balance mb-10"
         >
           לא על דגם מסוים. לא על שאריות מלאי. על כל מטבח שתבחרו —
-          מהאורבני ועד הקלאסי. ב-29 במאי בחצות החלון נסגר.
+          מהאורבני ועד הקלאסי. ביום שישי 29.05 בשעה 16:00 החלון נסגר.
         </motion.p>
 
         <motion.div
