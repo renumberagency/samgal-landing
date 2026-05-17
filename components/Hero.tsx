@@ -63,20 +63,6 @@ export default function Hero() {
           />
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-ink-400 text-xs flex flex-col items-center gap-2"
-        >
-          <span>גלילו למטה</span>
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
-          >
-            ↓
-          </motion.span>
-        </motion.div>
       </div>
     </section>
   );
