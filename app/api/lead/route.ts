@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const TO_EMAIL = "baruch125@gmail.com";
+const FROM_EMAIL = process.env.RESEND_FROM ?? "Samgal Landing <onboarding@resend.dev>";
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,9 +33,76 @@ export async function POST(req: NextRequest) {
 
     console.log("[LEAD]", JSON.stringify(lead));
 
+    const apiKey = process.env.RESEND_API_KEY;
+    if (apiKey) {
+      const resend = new Resend(apiKey);
+      const receivedLocal = new Date(lead.receivedAt).toLocaleString("he-IL", {
+        timeZone: "Asia/Jerusalem",
+      });
+      const html = `
+        <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background: #fafaf9;">
+          <div style="background: #ffffff; border: 1px solid #e4e4e7; border-radius: 16px; padding: 28px;">
+            <div style="display:inline-block; padding: 4px 12px; background: #E8F1EC; color: #17553A; border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px;">
+              ליד חדש · ימי מכירות 26%
+            </div>
+            <h1 style="margin: 0 0 20px; font-size: 22px; color: #0A0A0B;">${escapeHtml(name)}</h1>
+
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; color: #71717A; font-size: 14px; width: 100px;">טלפון</td>
+                <td style="padding: 10px 0; color: #0A0A0B; font-size: 16px; font-weight: 600;">
+                  <a href="tel:${phoneClean}" style="color: #17553A; text-decoration: none;">${phoneClean}</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #71717A; font-size: 14px;">מקור</td>
+                <td style="padding: 10px 0; color: #0A0A0B; font-size: 14px;">${escapeHtml(source)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #71717A; font-size: 14px;">התקבל</td>
+                <td style="padding: 10px 0; color: #0A0A0B; font-size: 14px;">${receivedLocal}</td>
+              </tr>
+            </table>
+
+            <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e4e4e7;">
+              <a href="https://wa.me/972${phoneClean.replace(/^0/, "")}"
+                 style="display: inline-block; background: #17553A; color: #fff; padding: 10px 18px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px;">
+                שלח WhatsApp ←
+              </a>
+            </div>
+          </div>
+          <p style="text-align: center; color: #a1a1aa; font-size: 12px; margin-top: 16px;">
+            סמגל מטבחים · דף נחיתה ימי מכירות
+          </p>
+        </div>
+      `.trim();
+
+      const { error } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: TO_EMAIL,
+        replyTo: undefined,
+        subject: `🔥 ליד חדש מסמגל — ${name} (${phoneClean})`,
+        html,
+      });
+      if (error) {
+        console.error("[RESEND ERROR]", error);
+      }
+    } else {
+      console.warn("[LEAD] RESEND_API_KEY not set — email not sent");
+    }
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[LEAD ERROR]", err);
     return NextResponse.json({ ok: false, error: "שגיאת שרת" }, { status: 500 });
   }
+}
+
+function escapeHtml(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
