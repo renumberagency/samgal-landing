@@ -65,10 +65,10 @@ export default function FinalCTA() {
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <span>📍 שדרות ההסתדרות 20, חיפה</span>
             <a
-              href="tel:077-9978405"
+              href="tel:*6158"
               className="hover:text-samgal transition-colors"
             >
-              📞 077-9978405
+              📞 *6158
             </a>
           </div>
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">

@@ -16,12 +16,6 @@ const STYLES = [
     gradient: "from-stone-200 via-stone-100 to-neutral-200",
   },
   {
-    name: "נאנו",
-    tag: "Nano",
-    desc: "מינימליסטי, נקי, ידיות נסתרות — אסטטיקה של ארכיטקט.",
-    gradient: "from-slate-100 via-zinc-50 to-zinc-100",
-  },
-  {
     name: "קלאסי",
     tag: "Classic",
     desc: "חמימות של עץ, פרזול עדין, מטבח שמספר סיפור.",
@@ -40,7 +34,7 @@ export default function StylesGallery() {
           transition={{ duration: 0.6 }}
           className="text-3xl sm:text-5xl font-black text-center text-balance mb-4 text-ink-950"
         >
-          ארבעה סגנונות.
+          שלושה סגנונות.
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -60,7 +54,7 @@ export default function StylesGallery() {
             hidden: {},
             show: { transition: { staggerChildren: 0.1 } },
           }}
-          className="grid sm:grid-cols-2 gap-5"
+          className="grid md:grid-cols-3 gap-5"
         >
           {STYLES.map((s) => (
             <motion.div
