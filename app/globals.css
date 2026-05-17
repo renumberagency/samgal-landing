@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAFAF9;
+  --fg: #0A0A0B;
+  --accent: #17553A;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(23, 85, 58, 0.05) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .gradient-accent {
+    background: linear-gradient(135deg, #1F7A52 0%, #17553A 100%);
+  }
+}
+
+input, textarea, button {
+  font-family: inherit;
+}
+
+input::placeholder {
+  color: rgba(10, 10, 11, 0.35);
+}
+
+::selection {
+  background: #17553A;
+  color: #FAFAF9;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFAF9;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #17553A;
+}

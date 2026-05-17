@@ -1,0 +1,119 @@
+"use client";
+
+import { useState, FormEvent } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+type Props = {
+  source: string;
+  ctaLabel: string;
+  microcopy?: string;
+};
+
+type Status = "idle" | "loading" | "success" | "error";
+
+export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, source }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setErrorMsg(data?.error ?? "שגיאה");
+        setStatus("error");
+        return;
+      }
+      setStatus("success");
+    } catch {
+      setErrorMsg("בעיית רשת");
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div className="w-full max-w-md mx-auto">
+      <AnimatePresence mode="wait">
+        {status === "success" ? (
+          <motion.div
+            key="success"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="rounded-2xl bg-samgal-tint border border-samgal/30 px-6 py-8 text-center"
+          >
+            <div className="text-4xl mb-3 text-samgal">✓</div>
+            <h3 className="text-xl font-bold text-ink-950 mb-2">קיבלנו את הפרטים</h3>
+            <p className="text-ink-700">
+              נחזור אליך תוך 24 שעות עם הצעת מחיר אישית כולל 26% הנחה.
+            </p>
+          </motion.div>
+        ) : (
+          <motion.form
+            key="form"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex flex-col gap-3"
+            noValidate
+          >
+            <input
+              type="text"
+              required
+              minLength={2}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="שם מלא"
+              autoComplete="name"
+              className="w-full h-14 px-5 rounded-xl bg-canvas-pure border border-ink-200
+                text-ink-950 placeholder-ink-400 text-base
+                focus:outline-none focus:border-samgal focus:ring-4 focus:ring-samgal/10
+                transition"
+            />
+            <input
+              type="tel"
+              required
+              pattern="0\d{8,9}"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="טלפון"
+              autoComplete="tel"
+              inputMode="numeric"
+              dir="ltr"
+              className="w-full h-14 px-5 rounded-xl bg-canvas-pure border border-ink-200
+                text-ink-950 placeholder-ink-400 text-base text-right
+                focus:outline-none focus:border-samgal focus:ring-4 focus:ring-samgal/10
+                transition"
+            />
+            <motion.button
+              type="submit"
+              disabled={status === "loading"}
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.98 }}
+              className="h-14 rounded-xl gradient-accent text-canvas font-bold text-lg
+                disabled:opacity-60 disabled:cursor-not-allowed
+                shadow-accent hover:shadow-accent-hover transition-shadow"
+            >
+              {status === "loading" ? "שולח..." : ctaLabel}
+            </motion.button>
+            {status === "error" && (
+              <p className="text-red-600 text-sm text-center">{errorMsg}</p>
+            )}
+            {microcopy && (
+              <p className="text-xs text-ink-500 text-center mt-1">{microcopy}</p>
+            )}
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
