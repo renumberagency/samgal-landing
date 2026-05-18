@@ -27,7 +27,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="relative py-24 sm:py-32 px-4 bg-canvas-soft">
+    <section className="relative py-24 sm:py-32 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -78,7 +78,7 @@ export default function HowItWorks() {
                   className="shrink-0 relative z-10 w-14 sm:w-20 h-14 sm:h-20 rounded-full
                     gradient-accent flex items-center justify-center
                     font-mono font-black text-canvas text-xl sm:text-2xl
-                    shadow-accent border-4 border-canvas-soft"
+                    shadow-accent border-4 border-canvas"
                 >
                   {i + 1}
                 </div>
