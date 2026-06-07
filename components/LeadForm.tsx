@@ -13,6 +13,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
   const [name, setName] = useState("");
+  const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -25,7 +26,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, source }),
+        body: JSON.stringify({ name, city, phone, source }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -39,6 +40,11 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
       setStatus("error");
     }
   }
+
+  const inputClass =
+    "w-full h-14 px-5 rounded-xl bg-canvas-pure border border-ink-200 " +
+    "text-ink-950 placeholder-ink-400 text-base " +
+    "focus:outline-none focus:border-samgal focus:ring-4 focus:ring-samgal/10 transition";
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -54,7 +60,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
             <div className="text-4xl mb-3 text-samgal">✓</div>
             <h3 className="text-xl font-bold text-ink-950 mb-2">קיבלנו את הפרטים</h3>
             <p className="text-ink-700">
-              נחזור אליך תוך 24 שעות עם הצעת מחיר אישית כולל 26% הנחה.
+              נחזור אליך תוך 24 שעות לייעוץ אישי ללא עלות.
             </p>
           </motion.div>
         ) : (
@@ -74,10 +80,19 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               onChange={(e) => setName(e.target.value)}
               placeholder="שם מלא"
               autoComplete="name"
-              className="w-full h-14 px-5 rounded-xl bg-canvas-pure border border-ink-200
-                text-ink-950 placeholder-ink-400 text-base
-                focus:outline-none focus:border-samgal focus:ring-4 focus:ring-samgal/10
-                transition"
+              aria-label="שם מלא"
+              className={inputClass}
+            />
+            <input
+              type="text"
+              required
+              minLength={2}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="עיר"
+              autoComplete="address-level2"
+              aria-label="עיר מגורים"
+              className={inputClass}
             />
             <input
               type="tel"
@@ -88,11 +103,9 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               placeholder="טלפון"
               autoComplete="tel"
               inputMode="numeric"
+              aria-label="מספר טלפון"
               dir="ltr"
-              className="w-full h-14 px-5 rounded-xl bg-canvas-pure border border-ink-200
-                text-ink-950 placeholder-ink-400 text-base text-right
-                focus:outline-none focus:border-samgal focus:ring-4 focus:ring-samgal/10
-                transition"
+              className={`${inputClass} text-right`}
             />
             <motion.button
               type="submit"
@@ -106,7 +119,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               {status === "loading" ? "שולח..." : ctaLabel}
             </motion.button>
             {status === "error" && (
-              <p className="text-red-600 text-sm text-center">{errorMsg}</p>
+              <p className="text-red-600 text-sm text-center" role="alert">{errorMsg}</p>
             )}
             {microcopy && (
               <p className="text-xs text-ink-500 text-center mt-1">{microcopy}</p>

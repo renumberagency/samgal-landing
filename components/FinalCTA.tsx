@@ -52,7 +52,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 pt-10 border-t border-ink-200 text-center text-ink-500 text-sm space-y-2"
+          className="mt-20 pt-10 border-t border-ink-200 text-center text-ink-500 text-sm space-y-3"
         >
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <span>📍 שדרות ההסתדרות 20, חיפה</span>
@@ -67,8 +67,31 @@ export default function FinalCTA() {
             <span>א&apos;–ה&apos; 09:00–19:00</span>
             <span>ו&apos; 09:00–13:00</span>
           </div>
-          <div className="pt-4 text-ink-400 text-xs">
-            © {new Date().getFullYear()} סמגל מטבחים. כל הזכויות שמורות.
+
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 pt-4 text-xs">
+            <a
+              href="/accessibility"
+              className="hover:text-samgal transition-colors underline-offset-4 hover:underline"
+            >
+              הצהרת נגישות
+            </a>
+            <span className="text-ink-300">·</span>
+            <span>האתר עומד בדרישות נגישות לפי תקן IS 5568</span>
+          </div>
+
+          <div className="pt-4 text-ink-400 text-xs space-y-1">
+            <div>© {new Date().getFullYear()} סמגל מטבחים. כל הזכויות שמורות.</div>
+            <div>
+              האתר נבנה ע&quot;י{" "}
+              <a
+                href="https://renumber-agency.co.il/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-ink-700 hover:text-samgal transition-colors"
+              >
+                Renumber Agency
+              </a>
+            </div>
           </div>
         </motion.footer>
       </div>

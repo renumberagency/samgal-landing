@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Heebo, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import CookieBanner from "@/components/CookieBanner";
+import AccessibilityWidget from "@/components/AccessibilityWidget";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -50,6 +52,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans bg-canvas text-ink-950 antialiased">
         {children}
+        <CookieBanner />
+        <AccessibilityWidget />
       </body>
     </html>
   );

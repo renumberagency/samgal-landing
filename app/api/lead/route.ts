@@ -8,11 +8,15 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const name = (body?.name ?? "").toString().trim();
+    const city = (body?.city ?? "").toString().trim();
     const phone = (body?.phone ?? "").toString().trim();
     const source = (body?.source ?? "unknown").toString();
 
     if (!name || name.length < 2) {
       return NextResponse.json({ ok: false, error: "שם לא תקין" }, { status: 400 });
+    }
+    if (!city || city.length < 2) {
+      return NextResponse.json({ ok: false, error: "עיר לא תקינה" }, { status: 400 });
     }
     const phoneClean = phone.replace(/[\s-]/g, "");
     if (!/^0\d{8,9}$/.test(phoneClean)) {
@@ -24,6 +28,7 @@ export async function POST(req: NextRequest) {
 
     const lead = {
       name,
+      city,
       phone: phoneClean,
       source,
       receivedAt: new Date().toISOString(),
@@ -49,7 +54,11 @@ export async function POST(req: NextRequest) {
 
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
-                <td style="padding: 10px 0; color: #71717A; font-size: 14px; width: 100px;">טלפון</td>
+                <td style="padding: 10px 0; color: #71717A; font-size: 14px; width: 100px;">עיר</td>
+                <td style="padding: 10px 0; color: #0A0A0B; font-size: 16px; font-weight: 600;">${escapeHtml(city)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #71717A; font-size: 14px;">טלפון</td>
                 <td style="padding: 10px 0; color: #0A0A0B; font-size: 16px; font-weight: 600;">
                   <a href="tel:${phoneClean}" style="color: #17553A; text-decoration: none;">${phoneClean}</a>
                 </td>
@@ -80,8 +89,7 @@ export async function POST(req: NextRequest) {
       const { error } = await resend.emails.send({
         from: FROM_EMAIL,
         to: TO_EMAIL,
-        replyTo: undefined,
-        subject: `🔔 ליד חדש מסמגל — ${name} (${phoneClean})`,
+        subject: `🔔 ליד חדש מסמגל — ${name} מ${city} (${phoneClean})`,
         html,
       });
       if (error) {
