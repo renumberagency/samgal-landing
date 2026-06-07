@@ -13,8 +13,9 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
   const [name, setName] = useState("");
-  const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
+  const [city, setCity] = useState("");
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -26,7 +27,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, city, phone, source }),
+        body: JSON.stringify({ name, phone, city, source }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
@@ -109,19 +110,44 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               title="נא להזין עיר מגורים"
               className={inputClass}
             />
+
+            <label className="flex items-start gap-2.5 text-sm text-ink-700 cursor-pointer mt-1 select-none">
+              <input
+                type="checkbox"
+                required
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                aria-label="אני מאשר את מדיניות הפרטיות (חובה)"
+                className="mt-0.5 w-4 h-4 accent-samgal cursor-pointer shrink-0"
+              />
+              <span className="leading-snug text-right">
+                אני מאשר את{" "}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-samgal font-semibold underline underline-offset-2 hover:text-samgal-light"
+                >
+                  מדיניות הפרטיות
+                </a>
+              </span>
+            </label>
+
             <motion.button
               type="submit"
               disabled={status === "loading"}
               whileHover={{ scale: 1.015 }}
               whileTap={{ scale: 0.98 }}
-              className="h-14 rounded-xl gradient-accent text-canvas font-bold text-lg
+              className="h-14 mt-2 rounded-xl gradient-accent text-canvas font-bold text-lg
                 disabled:opacity-60 disabled:cursor-not-allowed
                 shadow-accent hover:shadow-accent-hover transition-shadow"
             >
               {status === "loading" ? "שולח..." : ctaLabel}
             </motion.button>
             {status === "error" && (
-              <p className="text-red-600 text-sm text-center" role="alert">{errorMsg}</p>
+              <p className="text-red-600 text-sm text-center" role="alert">
+                {errorMsg}
+              </p>
             )}
             {microcopy && (
               <p className="text-xs text-ink-500 text-center mt-1">{microcopy}</p>

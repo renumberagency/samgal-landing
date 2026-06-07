@@ -76,6 +76,13 @@ export default function FinalCTA() {
               הצהרת נגישות
             </a>
             <span className="text-ink-300">·</span>
+            <a
+              href="/privacy"
+              className="hover:text-samgal transition-colors underline-offset-4 hover:underline"
+            >
+              מדיניות פרטיות
+            </a>
+            <span className="text-ink-300">·</span>
             <span>האתר עומד בדרישות נגישות לפי תקן IS 5568</span>
           </div>
 

@@ -52,7 +52,7 @@ export default function AccessibilityWidget() {
   const rowOn = "bg-samgal-tint text-samgal border-samgal/40 font-semibold";
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 left-4 z-50">
       <AnimatePresence>
         {open && (
           <motion.div
@@ -62,7 +62,7 @@ export default function AccessibilityWidget() {
             transition={{ duration: 0.2 }}
             role="dialog"
             aria-label="תפריט נגישות"
-            className="absolute bottom-16 right-0 w-72 bg-canvas-pure rounded-2xl
+            className="absolute bottom-14 left-0 w-72 bg-canvas-pure rounded-2xl
               shadow-card-hover border border-ink-200 p-4"
           >
             <div className="flex items-center justify-between mb-3">
@@ -124,17 +124,26 @@ export default function AccessibilityWidget() {
         )}
       </AnimatePresence>
 
-      <motion.button
+      <button
         onClick={() => setOpen(!open)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
         aria-label={open ? "סגור תפריט נגישות" : "פתח תפריט נגישות"}
         aria-expanded={open}
-        className="w-14 h-14 rounded-full gradient-accent shadow-accent hover:shadow-accent-hover
-          flex items-center justify-center text-canvas text-2xl transition-shadow"
+        className="w-11 h-11 rounded-full bg-[#1976D2] hover:bg-[#1565C0]
+          flex items-center justify-center text-white
+          shadow-[0_4px_12px_rgba(25,118,210,0.35)]
+          hover:shadow-[0_6px_18px_rgba(25,118,210,0.45)]
+          transition-all"
       >
-        <span aria-hidden>♿</span>
-      </motion.button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-6 h-6"
+          aria-hidden="true"
+        >
+          <path d="M12 2C13.11 2 14 2.9 14 4S13.11 6 12 6 10 5.11 10 4 10.9 2 12 2M15.89 8.11C15.5 7.72 14.83 7 13.53 7H10.47C8.39 7 7 8.71 7 10.4L5 21H7L9 12H10V21H14V12H15L17 21H19L17.5 14.55L15.89 8.11Z" />
+        </svg>
+      </button>
     </div>
   );
 }
