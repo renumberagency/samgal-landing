@@ -78,10 +78,10 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               minLength={2}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="שם ראשון *"
-              autoComplete="given-name"
-              aria-label="שם ראשון (חובה)"
-              title="נא להזין שם ראשון"
+              placeholder="שם מלא *"
+              autoComplete="name"
+              aria-label="שם מלא (חובה)"
+              title="נא להזין שם מלא"
               className={inputClass}
             />
             <input
