@@ -5,7 +5,7 @@ import LeadForm from "./LeadForm";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-16 px-4">
+    <section className="relative min-h-[calc(100vh-100px)] flex items-center justify-center overflow-hidden pt-8 pb-16 px-4">
       <div className="relative z-10 max-w-4xl w-full text-center">
         <motion.div
           initial={{ opacity: 0, y: -8 }}
