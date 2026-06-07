@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background: #fafaf9;">
           <div style="background: #ffffff; border: 1px solid #e4e4e7; border-radius: 16px; padding: 28px;">
             <div style="display:inline-block; padding: 4px 12px; background: #E8F1EC; color: #17553A; border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px;">
-              ליד חדש · ימי מכירות 26%
+              ליד חדש · סמגל מטבחים
             </div>
             <h1 style="margin: 0 0 20px; font-size: 22px; color: #0A0A0B;">${escapeHtml(name)}</h1>
 
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
             </div>
           </div>
           <p style="text-align: center; color: #a1a1aa; font-size: 12px; margin-top: 16px;">
-            סמגל מטבחים · דף נחיתה ימי מכירות
+            סמגל מטבחים · דף נחיתה
           </p>
         </div>
       `.trim();
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         from: FROM_EMAIL,
         to: TO_EMAIL,
         replyTo: undefined,
-        subject: `🔥 ליד חדש מסמגל — ${name} (${phoneClean})`,
+        subject: `🔔 ליד חדש מסמגל — ${name} (${phoneClean})`,
         html,
       });
       if (error) {

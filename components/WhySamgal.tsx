@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 const POINTS = [
   {
-    title: "26% על הכל",
-    body: "לא רק על דגמים מסוימים. לא רק על מלאי ישן. הסגנון שלכם, המידות שלכם, החומרים שלכם — הכל באותה הנחה.",
+    title: "תכנון אישי, לא מהמדף",
+    body: "כל מטבח מתוכנן מאפס לפי המידות, החיים והטעם שלכם. אין שני מטבחים זהים — כי אין שני בתים זהים.",
   },
   {
     title: "ותק של עשרות שנים",
@@ -28,9 +28,7 @@ export default function WhySamgal() {
           transition={{ duration: 0.6 }}
           className="text-3xl sm:text-5xl font-black text-center text-balance mb-16 text-ink-950"
         >
-          למה ימי המכירות של סמגל
-          <br className="hidden sm:block" />
-          <span className="sm:inline"> שונים מכל מבצע מטבחים אחר?</span>
+          שלוש סיבות לבחור בסמגל.
         </motion.h2>
 
         <motion.div

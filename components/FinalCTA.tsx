@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Countdown from "./Countdown";
 import LeadForm from "./LeadForm";
 
 export default function FinalCTA() {
@@ -10,50 +9,43 @@ export default function FinalCTA() {
       id="final-cta"
       className="relative py-24 sm:py-32 px-4 overflow-hidden border-t border-ink-200"
     >
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center lg:text-right"
-          >
-            <h2 className="text-4xl sm:text-6xl font-black leading-tight text-balance mb-6 text-ink-950">
-              יום שישי 29.05 · 16:00 —
-              <br />
-              <span className="text-samgal">החלון נסגר.</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-ink-700 text-balance mb-10">
-              אחרי זה חוזרים למחירונים הרגילים. אם מטבח חדש על הפרק שלכם השנה —
-              <span className="text-ink-950 font-bold"> זה החלון.</span>
-              <br />
-              בלי גימיקים. בלי &quot;נדחה לחודש הבא&quot;.
-            </p>
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl sm:text-6xl font-black leading-tight text-balance mb-6 text-ink-950"
+        >
+          מוכנים להתחיל?
+          <br />
+          <span className="text-samgal">השיחה הראשונה — עלינו.</span>
+        </motion.h2>
 
-            <Countdown size="lg" />
-          </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-lg sm:text-xl text-ink-700 text-balance mb-12 max-w-2xl mx-auto"
+        >
+          אנחנו לא לוחצים. נבין מה אתם רוצים, נציע רעיונות,
+          ונראה ביחד אם זה המקום הנכון בשבילכם.
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="bg-canvas-pure border border-ink-200 rounded-3xl p-7 sm:p-10 shadow-card"
-          >
-            <h3 className="text-2xl sm:text-3xl font-bold text-center text-ink-950 mb-2">
-              רוצים את 26% ההנחה?
-            </h3>
-            <p className="text-ink-500 text-center mb-6 text-sm">
-              השאירו פרטים — נחזור אליכם תוך 24 שעות
-            </p>
-            <LeadForm
-              source="final"
-              ctaLabel="אני רוצה את 26% — דברו איתי"
-              microcopy="ייעוץ ללא עלות · ללא התחייבות"
-            />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="bg-canvas-pure border border-ink-200 rounded-3xl p-7 sm:p-10 shadow-card max-w-md mx-auto"
+        >
+          <LeadForm
+            source="final"
+            ctaLabel="דברו איתי"
+            microcopy="ייעוץ ללא עלות · נחזור אליכם תוך 24 שעות"
+          />
+        </motion.div>
 
         <motion.footer
           initial={{ opacity: 0 }}

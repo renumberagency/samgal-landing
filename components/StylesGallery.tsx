@@ -102,7 +102,7 @@ export default function StylesGallery() {
             className="inline-flex items-center gap-2 text-lg font-bold text-samgal
               hover:text-samgal-light transition-colors group"
           >
-            בחרתם סגנון? קבלו 26% הנחה
+            בחרתם סגנון? דברו איתנו
             <span className="group-hover:-translate-x-1 transition-transform">←</span>
           </a>
         </motion.div>
