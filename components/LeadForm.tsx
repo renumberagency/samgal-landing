@@ -70,7 +70,6 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex flex-col gap-3"
-            noValidate
           >
             <input
               type="text"
@@ -78,20 +77,10 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               minLength={2}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="שם מלא"
-              autoComplete="name"
-              aria-label="שם מלא"
-              className={inputClass}
-            />
-            <input
-              type="text"
-              required
-              minLength={2}
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="עיר"
-              autoComplete="address-level2"
-              aria-label="עיר מגורים"
+              placeholder="שם ראשון *"
+              autoComplete="given-name"
+              aria-label="שם ראשון (חובה)"
+              title="נא להזין שם ראשון"
               className={inputClass}
             />
             <input
@@ -100,12 +89,25 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
               pattern="0\d{8,9}"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="טלפון"
+              placeholder="טלפון *"
               autoComplete="tel"
               inputMode="numeric"
-              aria-label="מספר טלפון"
+              aria-label="מספר טלפון (חובה)"
+              title="נא להזין מספר טלפון תקין (10 ספרות, מתחיל ב-0)"
               dir="ltr"
               className={`${inputClass} text-right`}
+            />
+            <input
+              type="text"
+              required
+              minLength={2}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="עיר *"
+              autoComplete="address-level2"
+              aria-label="עיר מגורים (חובה)"
+              title="נא להזין עיר מגורים"
+              className={inputClass}
             />
             <motion.button
               type="submit"
