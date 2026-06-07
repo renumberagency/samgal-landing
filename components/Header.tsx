@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="relative z-30 pt-5 sm:pt-6 pb-2 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto flex justify-center sm:justify-start">
+      <div className="max-w-6xl mx-auto flex justify-center">
         <Link
           href="/"
           aria-label="סמגל מטבחים - דף הבית"
