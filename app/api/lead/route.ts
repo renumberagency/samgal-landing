@@ -38,6 +38,30 @@ export async function POST(req: NextRequest) {
 
     console.log("[LEAD]", JSON.stringify(lead));
 
+    // Fire webhook + email in parallel — neither blocks the other
+    const tasks: Promise<unknown>[] = [];
+
+    const webhookUrl = process.env.WEBHOOK_URL;
+    if (webhookUrl) {
+      tasks.push(
+        fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(lead),
+        })
+          .then(async (r) => {
+            if (!r.ok) {
+              console.error("[WEBHOOK] non-2xx:", r.status, await r.text().catch(() => ""));
+            } else {
+              console.log("[WEBHOOK] ok");
+            }
+          })
+          .catch((err) => console.error("[WEBHOOK ERROR]", err))
+      );
+    } else {
+      console.warn("[LEAD] WEBHOOK_URL not set — webhook not called");
+    }
+
     const apiKey = process.env.RESEND_API_KEY;
     if (apiKey) {
       const resend = new Resend(apiKey);
@@ -86,18 +110,23 @@ export async function POST(req: NextRequest) {
         </div>
       `.trim();
 
-      const { error } = await resend.emails.send({
-        from: FROM_EMAIL,
-        to: TO_EMAIL,
-        subject: `🔔 ליד חדש מסמגל — ${name} מ${city} (${phoneClean})`,
-        html,
-      });
-      if (error) {
-        console.error("[RESEND ERROR]", error);
-      }
+      tasks.push(
+        resend.emails
+          .send({
+            from: FROM_EMAIL,
+            to: TO_EMAIL,
+            subject: `🔔 ליד חדש מסמגל — ${name} מ${city} (${phoneClean})`,
+            html,
+          })
+          .then((res) => {
+            if (res.error) console.error("[RESEND ERROR]", res.error);
+          })
+      );
     } else {
       console.warn("[LEAD] RESEND_API_KEY not set — email not sent");
     }
+
+    await Promise.allSettled(tasks);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

@@ -38,7 +38,7 @@ export default function CookieBanner() {
           className="fixed bottom-0 inset-x-0 z-40 bg-ink-950 text-canvas
             border-t border-ink-700 shadow-[0_-8px_30px_rgba(0,0,0,0.15)]"
         >
-          <div className="max-w-6xl mx-auto pl-20 pr-4 sm:pl-24 sm:pr-6 py-4 flex flex-col sm:flex-row items-center gap-4">
+          <div className="max-w-6xl mx-auto pl-20 pr-20 sm:pl-24 sm:pr-24 py-4 flex flex-col sm:flex-row items-center gap-4">
             <p className="text-sm leading-relaxed text-canvas/90 text-center sm:text-right flex-1">
               אנו משתמשים בעוגיות כדי לשפר את חוויית הגלישה שלכם.
               המשך שימוש באתר מהווה הסכמה למדיניות הפרטיות.

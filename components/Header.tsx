@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="relative z-30 pt-5 sm:pt-6 pb-2 px-4 sm:px-6">
+    <header className="relative z-30 pt-5 sm:pt-6 pb-0 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto flex justify-center">
         <Link
           href="/"
@@ -11,7 +11,8 @@ export default function Header() {
           className="inline-block group"
         >
           <div
-            className="bg-samgal px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl
+            className="bg-samgal rounded-full w-28 h-28 sm:w-32 sm:h-32
+              flex flex-col items-center justify-center
               shadow-card group-hover:shadow-card-hover transition-shadow"
           >
             <Image
@@ -20,9 +21,9 @@ export default function Header() {
               width={793}
               height={473}
               priority
-              className="h-9 sm:h-11 w-auto block"
+              className="w-16 sm:w-20 h-auto"
             />
-            <div className="text-white text-[10px] sm:text-xs text-center tracking-wider font-light -mt-0.5">
+            <div className="text-white text-[10px] sm:text-xs tracking-wider font-light -mt-1">
               סמגל מטבחים
             </div>
           </div>
