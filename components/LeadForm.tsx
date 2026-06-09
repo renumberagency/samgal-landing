@@ -11,6 +11,14 @@ type Props = {
 
 type Status = "idle" | "loading" | "success" | "error";
 
+declare global {
+  interface Window {
+    gtag?: (command: string, action: string, params: Record<string, unknown>) => void;
+  }
+}
+
+const GOOGLE_ADS_CONVERSION = "AW-814762867/vVf1CPnX5rscEPOWwYQD";
+
 export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -36,6 +44,9 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
         return;
       }
       setStatus("success");
+      try {
+        window.gtag?.("event", "conversion", { send_to: GOOGLE_ADS_CONVERSION });
+      } catch {}
     } catch {
       setErrorMsg("בעיית רשת");
       setStatus("error");
