@@ -15,7 +15,7 @@ export default function Hero() {
             border border-samgal/30 bg-samgal-tint text-samgal text-sm font-medium mb-8"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-samgal" />
-          סמגל מטבחים · שואורום בחיפה
+          סמגל מטבחים · אולם תצוגה בחיפה
         </motion.div>
 
         <motion.h1
@@ -24,9 +24,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="text-5xl sm:text-7xl md:text-8xl font-black leading-[0.95] tracking-tight text-balance mb-6 text-ink-950"
         >
-          המטבח שלכם.
-          <br />
-          <span className="text-samgal">מתוכנן בידינו.</span>
+          המטבח <span className="text-samgal">הבא</span> שלכם.
         </motion.h1>
 
         <motion.p
@@ -35,7 +33,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.25 }}
           className="text-lg sm:text-xl text-ink-700 max-w-2xl mx-auto text-balance mb-10"
         >
-          תכנון אישי. ייצור ישראלי. שואורום פיזי בחיפה.
+          תכנון אישי. ייצור ישראלי. אולם תצוגה פיזי בחיפה.
           השאירו פרטים — נחזור אליכם תוך 24 שעות לייעוץ ללא עלות.
         </motion.p>
 
