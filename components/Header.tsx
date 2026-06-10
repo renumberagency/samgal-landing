@@ -11,21 +11,18 @@ export default function Header() {
           className="inline-block group"
         >
           <div
-            className="bg-samgal rounded-full w-28 h-28 sm:w-32 sm:h-32
-              flex flex-col items-center justify-center
-              shadow-card group-hover:shadow-card-hover transition-shadow"
+            className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden
+              shadow-card group-hover:shadow-card-hover transition-shadow
+              ring-1 ring-black/5"
           >
             <Image
-              src="/samgal-logo.png"
-              alt="Samgal"
-              width={793}
-              height={473}
+              src="/samgal-square.jpg"
+              alt="סמגל מטבחים"
+              fill
               priority
-              className="w-16 sm:w-20 h-auto"
+              className="object-cover"
+              sizes="(max-width: 640px) 112px, 128px"
             />
-            <div className="text-white text-[10px] sm:text-xs tracking-wider font-light -mt-1">
-              סמגל מטבחים
-            </div>
           </div>
         </Link>
       </div>
