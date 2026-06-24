@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { getKv, todayKey } from "@/lib/kv";
 
 const TO_EMAIL = "baruch125@gmail.com";
 const FROM_EMAIL = process.env.RESEND_FROM ?? "Samgal Landing <onboarding@resend.dev>";
@@ -39,6 +40,27 @@ export async function POST(req: NextRequest) {
     console.log("[LEAD]", JSON.stringify(lead));
 
     const tasks: Promise<unknown>[] = [];
+
+    const kv = getKv();
+    if (kv) {
+      const day = todayKey();
+      tasks.push(
+        (async () => {
+          try {
+            const pipeline = kv.pipeline();
+            pipeline.incr(`evt:${day}:lead_success`);
+            pipeline.expire(`evt:${day}:lead_success`, 60 * 60 * 24 * 90);
+            pipeline.incr(`evt:${day}:lead_source:${source}`);
+            pipeline.expire(`evt:${day}:lead_source:${source}`, 60 * 60 * 24 * 90);
+            pipeline.lpush("leads:list", JSON.stringify(lead));
+            pipeline.ltrim("leads:list", 0, 199); // keep last 200
+            await pipeline.exec();
+          } catch (err) {
+            console.error("[KV LEAD ERROR]", err);
+          }
+        })()
+      );
+    }
 
     const webhookUrl = process.env.WEBHOOK_URL;
     if (webhookUrl) {

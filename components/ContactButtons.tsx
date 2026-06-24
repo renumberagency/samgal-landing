@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { track } from "./Tracker";
 
 const WHATSAPP_NUMBER = "972522251450";
 const WHATSAPP_MESSAGE = "היי הגעת דרך האתר, אשמח לשמוע פרטים נוספים";
@@ -17,6 +18,7 @@ export default function ContactButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="צור קשר בוואטסאפ"
+        onClick={() => track("wa_click")}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         className="w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#22C55E]
@@ -38,6 +40,7 @@ export default function ContactButtons() {
       <motion.a
         href={PHONE_URL}
         aria-label="התקשרו אלינו 6158*"
+        onClick={() => track("phone_click")}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}
         className="w-12 h-12 rounded-full bg-samgal hover:bg-samgal-light

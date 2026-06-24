@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { track } from "./Tracker";
 
 type Props = {
   source: string;
@@ -44,6 +45,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
         return;
       }
       setStatus("success");
+      track("form_submit");
       try {
         window.gtag?.("event", "conversion", { send_to: GOOGLE_ADS_CONVERSION });
       } catch {}
