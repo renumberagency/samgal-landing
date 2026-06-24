@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { getKv, todayKey } from "@/lib/kv";
+import { getDb } from "@/lib/db";
 
 const TO_EMAIL = "baruch125@gmail.com";
 const FROM_EMAIL = process.env.RESEND_FROM ?? "Samgal Landing <onboarding@resend.dev>";
@@ -27,36 +27,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const ip = req.headers.get("x-forwarded-for") ?? "unknown";
+    const ua = req.headers.get("user-agent") ?? "unknown";
+
     const lead = {
       name,
       city,
       phone: phoneClean,
       source,
       receivedAt: new Date().toISOString(),
-      ip: req.headers.get("x-forwarded-for") ?? "unknown",
-      ua: req.headers.get("user-agent") ?? "unknown",
+      ip,
+      ua,
     };
 
     console.log("[LEAD]", JSON.stringify(lead));
 
     const tasks: Promise<unknown>[] = [];
 
-    const kv = getKv();
-    if (kv) {
-      const day = todayKey();
+    const db = getDb();
+    if (db) {
       tasks.push(
         (async () => {
           try {
-            const pipeline = kv.pipeline();
-            pipeline.incr(`evt:${day}:lead_success`);
-            pipeline.expire(`evt:${day}:lead_success`, 60 * 60 * 24 * 90);
-            pipeline.incr(`evt:${day}:lead_source:${source}`);
-            pipeline.expire(`evt:${day}:lead_source:${source}`, 60 * 60 * 24 * 90);
-            pipeline.lpush("leads:list", JSON.stringify(lead));
-            pipeline.ltrim("leads:list", 0, 199); // keep last 200
-            await pipeline.exec();
+            const inserts = await Promise.all([
+              db.from("samgal_leads").insert({
+                name, city, phone: phoneClean, source, ip, ua,
+              }),
+              db.from("samgal_events").insert({
+                event: "lead_success", session_id: null,
+              }),
+            ]);
+            inserts.forEach((r) => {
+              if (r.error) console.error("[DB INSERT]", r.error);
+            });
           } catch (err) {
-            console.error("[KV LEAD ERROR]", err);
+            console.error("[DB LEAD ERROR]", err);
           }
         })()
       );
@@ -73,14 +78,10 @@ export async function POST(req: NextRequest) {
           .then(async (r) => {
             if (!r.ok) {
               console.error("[WEBHOOK] non-2xx:", r.status, await r.text().catch(() => ""));
-            } else {
-              console.log("[WEBHOOK] ok");
             }
           })
           .catch((err) => console.error("[WEBHOOK ERROR]", err))
       );
-    } else {
-      console.warn("[LEAD] WEBHOOK_URL not set");
     }
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -141,11 +142,8 @@ export async function POST(req: NextRequest) {
           })
           .then((res) => {
             if (res.error) console.error("[RESEND ERROR]", res.error);
-            else console.log("[RESEND] ok");
           })
       );
-    } else {
-      console.warn("[LEAD] RESEND_API_KEY not set");
     }
 
     await Promise.allSettled(tasks);

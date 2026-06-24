@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getKv, todayKey, EventName } from "@/lib/kv";
+import { getDb, EventName } from "@/lib/db";
 
 const ALLOWED: EventName[] = [
   "pageview",
@@ -22,24 +22,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "invalid event" }, { status: 400 });
     }
 
-    const kv = getKv();
-    if (!kv) {
-      console.warn("[TRACK] KV not configured, event dropped:", event);
+    const db = getDb();
+    if (!db) {
+      console.warn("[TRACK] DB not configured, event dropped:", event);
       return NextResponse.json({ ok: true, stored: false });
     }
 
-    const day = todayKey();
-    const pipeline = kv.pipeline();
-    pipeline.incr(`evt:${day}:${event}`);
-    pipeline.expire(`evt:${day}:${event}`, 60 * 60 * 24 * 90); // keep 90 days
+    const { error } = await db
+      .from("samgal_events")
+      .insert({ event, session_id: sessionId || null });
 
-    if (sessionId && event === "pageview") {
-      pipeline.sadd(`sessions:${day}`, sessionId);
-      pipeline.expire(`sessions:${day}`, 60 * 60 * 24 * 90);
-    }
+    if (error) console.error("[TRACK INSERT]", error);
 
-    await pipeline.exec();
-    return NextResponse.json({ ok: true, stored: true });
+    return NextResponse.json({ ok: true, stored: !error });
   } catch (err) {
     console.error("[TRACK ERROR]", err);
     return NextResponse.json({ ok: false }, { status: 500 });
