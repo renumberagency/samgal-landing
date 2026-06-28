@@ -67,7 +67,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const webhookUrl = process.env.WEBHOOK_URL;
+    const webhookUrl = source.startsWith("organic")
+      ? process.env.WEBHOOK_URL_ORGANIC
+      : process.env.WEBHOOK_URL;
     if (webhookUrl) {
       tasks.push(
         fetch(webhookUrl, {
