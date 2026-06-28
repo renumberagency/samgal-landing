@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import LeadForm from "./LeadForm";
 
-export default function Hero() {
+export default function Hero({ source = "hero" }: { source?: string }) {
   return (
     <section className="relative min-h-[calc(100vh-120px)] flex items-center justify-center overflow-hidden pt-3 pb-16 px-4">
       <div className="relative z-10 max-w-4xl w-full text-center">
@@ -43,7 +43,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
         >
           <LeadForm
-            source="hero"
+            source={source}
             ctaLabel="דברו איתי"
             microcopy="ייעוץ ללא עלות · ללא התחייבות"
           />

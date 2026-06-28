@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import LeadForm from "./LeadForm";
 
-export default function FinalCTA() {
+export default function FinalCTA({ source = "final" }: { source?: string }) {
   return (
     <section
       id="final-cta"
@@ -41,7 +41,7 @@ export default function FinalCTA() {
           className="bg-canvas-pure border border-ink-200 rounded-3xl p-7 sm:p-10 shadow-card max-w-md mx-auto"
         >
           <LeadForm
-            source="final"
+            source={source}
             ctaLabel="דברו איתי"
             microcopy="ייעוץ ללא עלות · נחזור אליכם תוך 24 שעות"
           />
