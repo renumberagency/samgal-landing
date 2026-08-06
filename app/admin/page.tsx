@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/auth";
-import { getDb, AdminStats, Lead } from "@/lib/db";
+import { getDb, AdminStats } from "@/lib/db";
 import LogoutButton from "./LogoutButton";
 import DateFilter from "./DateFilter";
+import LeadsSection from "./LeadsSection";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +40,8 @@ async function fetchStats(from: string, to: string): Promise<AdminStats | null> 
   return (data as AdminStats) ?? {
     events_by_day: [],
     sessions_by_day: [],
+    lead_sources: [],
+    total_leads: 0,
     recent_leads: [],
   };
 }
@@ -145,13 +148,13 @@ export default async function AdminPage({ searchParams }: { searchParams: SP }) 
         </section>
 
         <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-lg font-bold text-ink-950">לידים בטווח</h2>
-            <span className="text-xs text-ink-500">
-              {stats?.recent_leads.length ?? 0} לידים
-            </span>
-          </div>
-          <LeadsTable leads={stats?.recent_leads ?? []} />
+          <LeadsSection
+            leads={stats?.recent_leads ?? []}
+            sources={stats?.lead_sources ?? []}
+            totalLeads={stats?.total_leads ?? 0}
+            from={from}
+            to={to}
+          />
         </section>
 
         <section>
@@ -263,65 +266,6 @@ function DailyTable({
                   </td>
                   <td className="px-4 py-2.5 text-xs text-ink-500 font-mono">
                     {pv > 0 ? `${conv.toFixed(1)}%` : "—"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-function LeadsTable({ leads }: { leads: Lead[] }) {
-  if (leads.length === 0) {
-    return (
-      <div className="bg-canvas-pure border border-ink-200 rounded-2xl p-10 text-center text-ink-500 shadow-card">
-        אין לידים בטווח שנבחר.
-      </div>
-    );
-  }
-  return (
-    <div className="bg-canvas-pure border border-ink-200 rounded-2xl overflow-hidden shadow-card">
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-canvas-soft text-ink-500 text-xs uppercase tracking-wider">
-            <tr>
-              <th className="text-right px-4 py-3">שם</th>
-              <th className="text-right px-4 py-3">עיר</th>
-              <th className="text-right px-4 py-3">טלפון</th>
-              <th className="text-right px-4 py-3">מקור</th>
-              <th className="text-right px-4 py-3">זמן</th>
-              <th className="text-right px-4 py-3">פעולות</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-ink-200">
-            {leads.map((l) => {
-              const time = new Date(l.created_at ?? Date.now()).toLocaleString("he-IL", {
-                timeZone: "Asia/Jerusalem",
-                day: "2-digit",
-                month: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
-              const phoneNoLead = l.phone.replace(/^0/, "");
-              return (
-                <tr key={l.id} className="hover:bg-canvas-soft/50">
-                  <td className="px-4 py-3 font-medium text-ink-950">{l.name}</td>
-                  <td className="px-4 py-3 text-ink-700">{l.city}</td>
-                  <td className="px-4 py-3 font-mono text-ink-700" dir="ltr">{l.phone}</td>
-                  <td className="px-4 py-3">
-                    <span className="text-xs font-mono uppercase bg-samgal-tint text-samgal px-2 py-0.5 rounded">
-                      {l.source}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-ink-500 text-xs whitespace-nowrap">{time}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <a href={`tel:${l.phone}`} className="text-xs px-2.5 py-1 rounded bg-samgal text-white hover:bg-samgal-light transition">📞 חייג</a>
-                      <a href={`https://wa.me/972${phoneNoLead}`} target="_blank" rel="noopener noreferrer" className="text-xs px-2.5 py-1 rounded bg-[#25D366] text-white hover:bg-[#22C55E] transition">💬 WhatsApp</a>
-                    </div>
                   </td>
                 </tr>
               );

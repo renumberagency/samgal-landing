@@ -37,6 +37,8 @@ export type Lead = {
 export type AdminStats = {
   events_by_day: Array<{ event: string; day: string; count: number }>;
   sessions_by_day: Array<{ day: string; count: number }>;
+  lead_sources: Array<{ source: string; count: number }>;
+  total_leads: number;
   recent_leads: Lead[];
 };
 
