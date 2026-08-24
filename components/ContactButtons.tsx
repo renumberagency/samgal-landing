@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { track } from "./Tracker";
 
-const WHATSAPP_NUMBER = "972522251450";
+const WHATSAPP_NUMBER = "972522246045";
 const WHATSAPP_MESSAGE = "היי הגעת דרך האתר, אשמח לשמוע פרטים נוספים";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE
