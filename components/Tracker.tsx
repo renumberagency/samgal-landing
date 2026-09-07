@@ -5,6 +5,13 @@ import { useEffect } from "react";
 const SESSION_KEY = "samgal_sid";
 const FIRED_KEY = "samgal_fired";
 
+// אירועי הקלקה שצריכים לירות גם המרת Google Ads (מעבר ל-/api/track הפנימי).
+// ה-labels נשלפו מ-tag_snippets של פעולות ההמרה בחשבון 736-152-7192.
+const ADS_CONVERSIONS: Record<string, string> = {
+  phone_click: "AW-814762867/ySvaCO2sxZQaEPOWwYQD",
+  wa_click: "AW-814762867/cIMtCJqc05QaEPOWwYQD",
+};
+
 function getSessionId(): string {
   try {
     let sid = sessionStorage.getItem(SESSION_KEY);
@@ -43,6 +50,13 @@ export function track(event: string, options: { dedupe?: boolean } = {}) {
   if (typeof window === "undefined") return;
   if (options.dedupe && alreadyFired(event)) return;
   if (options.dedupe) markFired(event);
+
+  // המרת Google Ads עבור הקלקות טלפון/ווטסאפ (הטופס יורה בנפרד ב-LeadForm).
+  const sendTo = ADS_CONVERSIONS[event];
+  if (sendTo) {
+    const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+    gtag?.("event", "conversion", { send_to: sendTo });
+  }
 
   const sessionId = getSessionId();
   const body = JSON.stringify({ event, sessionId });

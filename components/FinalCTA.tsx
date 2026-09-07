@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import LeadForm from "./LeadForm";
+import { track } from "./Tracker";
 
 export default function FinalCTA({ source = "final" }: { source?: string }) {
   return (
@@ -58,6 +59,7 @@ export default function FinalCTA({ source = "final" }: { source?: string }) {
             <span>📍 שדרות ההסתדרות 20, חיפה</span>
             <a
               href="tel:*6158"
+              onClick={() => track("phone_click")}
               className="hover:text-samgal transition-colors"
             >
               📞 *6158
