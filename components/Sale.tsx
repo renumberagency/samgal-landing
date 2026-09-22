@@ -5,16 +5,50 @@ import { track } from "./Tracker";
 
 const LTR = "inline-block [unicode-bidi:isolate]";
 
+function BarItem() {
+  return (
+    <span className="mx-5 sm:mx-7">
+      ימי המכירות של סמגל
+      <span className="mx-3 text-[#F0C044]">•</span>
+      <span dir="ltr" className={LTR}>28-30.9</span>
+      <span className="mx-3 text-[#F0C044]">•</span>
+      <b className="text-[#F0C044]">26%</b> הנחה על מטבחים
+      <span className="mx-3 text-[#F0C044]">•</span>
+      <b className="text-[#F0C044]">50%</b> הנחה על שיש נבחר
+      <span className="mx-3 text-[#F0C044]">•</span>
+      מתנות ברכישה
+      <span className="mx-3 text-[#F0C044]">•</span>
+      תאמו פגישה עכשיו
+    </span>
+  );
+}
+
 export function SaleBar() {
+  const run = (
+    <>
+      <BarItem />
+      <BarItem />
+      <BarItem />
+    </>
+  );
   return (
     <a
       href="#sale"
       onClick={() => track("sale_bar_click")}
-      className="block bg-samgal text-white text-center text-sm sm:text-base font-semibold
-        py-2.5 px-4 hover:bg-samgal-dark transition-colors"
+      aria-label="ימי המכירות של סמגל 28-30.9 - תאמו פגישה"
+      dir="ltr"
+      className="block bg-ink-950 text-white text-sm sm:text-base font-semibold
+        py-2.5 overflow-hidden whitespace-nowrap"
     >
-      ימי המכירות של סמגל · <span dir="ltr" className={LTR}>28-30.9</span> · 26% הנחה על מטבחים
-      {" "}+ 50% על שיש נבחר + מתנות · תאמו פגישה ←
+      <span className="sale-marquee inline-block will-change-transform">
+        {run}
+        {run}
+      </span>
+      <style>{`
+        .sale-marquee { animation: sale-scroll 30s linear infinite; }
+        @keyframes sale-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @media (prefers-reduced-motion: reduce) { .sale-marquee { animation: none; } }
+      `}</style>
     </a>
   );
 }
