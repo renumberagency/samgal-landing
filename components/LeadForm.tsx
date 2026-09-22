@@ -15,6 +15,7 @@ type Status = "idle" | "loading" | "success" | "error";
 declare global {
   interface Window {
     gtag?: (command: string, action: string, params: Record<string, unknown>) => void;
+    fbq?: (command: string, action: string, params?: Record<string, unknown>) => void;
   }
 }
 
@@ -48,6 +49,7 @@ export default function LeadForm({ source, ctaLabel, microcopy }: Props) {
       track("form_submit");
       try {
         window.gtag?.("event", "conversion", { send_to: GOOGLE_ADS_CONVERSION });
+        window.fbq?.("track", "Lead", { content_name: "kitchen_lead" });
       } catch {}
     } catch {
       setErrorMsg("בעיית רשת");
